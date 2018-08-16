@@ -71,9 +71,20 @@ document.querySelector('.btn-hold').addEventListener('click',function(){
     //update the user interface UI
     document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
     //check if player won the game
-    
-    // next player
-    nextPlayer();
+    if (scores[activePlayer] >= 100)
+        {
+            document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+            // change the styling of element with class .dice and make it dissappear using display: none;
+            document.querySelector('.dice').style.display = 'none';
+            // remove the active class from winner and add the winner class
+            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        }
+    else
+        {
+            // next player
+            nextPlayer();
+        }
 });
 
 
