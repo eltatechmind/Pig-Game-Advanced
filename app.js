@@ -44,18 +44,17 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         }
     else
         {
-            // reset the current player score to 0
+            //reset the current player score to 0
             document.getElementById('current-' + activePlayer).textContent = '0';
             //next player "changing the activePlayer using ternary operator            
             activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-            // reset the roundscore counter
+            //reset the roundscore counter
             roundScore = 0; 
-            
+            //toggle a class between the 2 players to know which is the active one
             document.querySelector('.player-0-panel').classList.toggle('active');
             document.querySelector('.player-1-panel').classList.toggle('active');
+            //when dice=1 make the dice dissappear 
             document.querySelector('.dice').style.display = 'none';
-            //document.querySelector('.player-0-panel').classList.remove('active');
-            //document.querySelector('.player-1-panel').classList.add('active');
         }
 });
 
