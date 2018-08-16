@@ -24,6 +24,22 @@ document.getElementById('score-1').textContent = '0';
 document.getElementById('current-0').textContent = '0';
 document.getElementById('current-1').textContent = '0';
 
+// define a function
+function nextPlayer(){
+    //reset the current player score to 0
+    document.getElementById('current-' + activePlayer).textContent = '0';
+    //next player "changing the activePlayer using ternary operator            
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    //reset the roundscore counter
+    roundScore = 0; 
+    //toggle a class between the 2 players to know which is the active one
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    //when dice=1 make the dice dissappear 
+    document.querySelector('.dice').style.display = 'none';
+}
+
+
 // create event listener containing an annonymous function, which can't be called outside the event, check them here: https://developer.mozilla.org/en-US/docs/Web/Events
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
@@ -38,26 +54,27 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     //3. Update the round score but only IF the rolled number is not one.
     if (dice > 1)
         {
-            // add score
+            //add score
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
         }
     else
         {
-            //reset the current player score to 0
-            document.getElementById('current-' + activePlayer).textContent = '0';
-            //next player "changing the activePlayer using ternary operator            
-            activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-            //reset the roundscore counter
-            roundScore = 0; 
-            //toggle a class between the 2 players to know which is the active one
-            document.querySelector('.player-0-panel').classList.toggle('active');
-            document.querySelector('.player-1-panel').classList.toggle('active');
-            //when dice=1 make the dice dissappear 
-            document.querySelector('.dice').style.display = 'none';
+            //next player
+            nextPlayer();
         }
 });
 
+document.querySelector('.btn-hold').addEventListener('click',function(){
+    //add current score to the global score
+    scores[activePlayer] += roundScore;
+    //update the user interface UI
+    document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+    //check if player won the game
+    
+    // next player
+    nextPlayer();
+});
 
 
 
