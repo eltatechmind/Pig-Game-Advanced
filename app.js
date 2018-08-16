@@ -36,7 +36,27 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     diceDOM.src = 'dice-' + dice + '.png';
     
     //3. Update the round score but only IF the rolled number is not one.
-    
+    if (dice > 1)
+        {
+            // add score
+            roundScore += dice;
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        }
+    else
+        {
+            // reset the current player score to 0
+            document.getElementById('current-' + activePlayer).textContent = '0';
+            //next player "changing the activePlayer using ternary operator            
+            activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+            // reset the roundscore counter
+            roundScore = 0; 
+            
+            document.querySelector('.player-0-panel').classList.toggle('active');
+            document.querySelector('.player-1-panel').classList.toggle('active');
+            document.querySelector('.dice').style.display = 'none';
+            //document.querySelector('.player-0-panel').classList.remove('active');
+            //document.querySelector('.player-1-panel').classList.add('active');
+        }
 });
 
 
