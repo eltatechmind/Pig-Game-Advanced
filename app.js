@@ -10,7 +10,7 @@ GAME RULES:
 */
 
 // creating variables for each player
-var scores, roundScore, activePlayer;
+var scores, roundScore, activePlayer, gamePlaying;
 
 // initialize the variables values & reset everything by calling init function 
 init();
@@ -18,6 +18,7 @@ init();
 
 // define a function
 function nextPlayer(){
+    
     //reset the current player score to 0
     document.getElementById('current-' + activePlayer).textContent = '0';
     //next player "changing the activePlayer using ternary operator            
@@ -35,48 +36,59 @@ function nextPlayer(){
 // create event listener containing an annonymous function, which can't be called outside the event, check them here: https://developer.mozilla.org/en-US/docs/Web/Events
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
-    //1. Random number
-    var dice = Math.floor(Math.random() * 6) + 1;
     
-    //2. Display the result
-    var diceDOM = document.querySelector('.dice');
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-' + dice + '.png';
+    //if the gamePlaying, then do the following actions
+    if(gamePlaying)
+        {
+                //1. Random number
+                var dice = Math.floor(Math.random() * 6) + 1;
     
-    //3. Update the round score but only IF the rolled number is not one.
-    if (dice > 1)
-        {
-            //add score
-            roundScore += dice;
-            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+                //2. Display the result
+                var diceDOM = document.querySelector('.dice');
+                diceDOM.style.display = 'block';
+                diceDOM.src = 'dice-' + dice + '.png';
+    
+                //3. Update the round score but only IF the rolled number is not one.
+                if (dice > 1)
+                    {
+                        //add score
+                        roundScore += dice;
+                        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+                    }
+                else
+                    {
+                        //next player
+                        nextPlayer();
+                    }
         }
-    else
-        {
-            //next player
-            nextPlayer();
-        }
+
 });
 
 document.querySelector('.btn-hold').addEventListener('click',function(){
-    //add current score to the global score
-    scores[activePlayer] += roundScore;
-    //update the user interface UI
-    document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
-    //check if player won the game
-    if (scores[activePlayer] >= 10)
+    if (gamePlaying)
         {
-            document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
-            // change the styling of element with class .dice and make it dissappear using display: none;
-            document.querySelector('.dice').style.display = 'none';
-            // remove the active class from winner and add the winner class
-            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+            //add current score to the global score
+            scores[activePlayer] += roundScore;
+            //update the user interface UI
+            document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+            //check if player won the game
+            if (scores[activePlayer] >= 100)
+                {
+                    document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+                    // change the styling of element with class .dice and make it dissappear using display: none;
+                    document.querySelector('.dice').style.display = 'none';
+                    // remove the active class from winner and add the winner class
+                    document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+                    document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+                    gamePlaying = false;
+                }
+            else
+                {
+                    // next player
+                    nextPlayer();
+                }
         }
-    else
-        {
-            // next player
-            nextPlayer();
-        }
+    
 });
 
 //event listener on clicking the button new to call the function init to reset everything
@@ -86,6 +98,7 @@ function init(){
     scores = [0,0];
     roundScore = 0;
     activePlayer = 0;
+    gamePlaying = true;
     // change the styling of element with class .dice and make it dissappear using display: none;
     document.querySelector('.dice').style.display = 'none';
     // use get elements by id which is used only to select ids and faster than queryselector
