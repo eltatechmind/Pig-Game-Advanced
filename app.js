@@ -10,7 +10,7 @@ GAME RULES:
 */
 
 // creating variables for each player
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, dice0score=0, dice1score=0;
 
 // initialize the variables values & reset everything by calling init function 
 init();
@@ -18,7 +18,9 @@ init();
 
 // define a function
 function nextPlayer(){
-    
+    //reset the old score of the current player
+    dice0score = 0;
+    dice1score = 0;
     //reset the current player score to 0
     document.getElementById('current-' + activePlayer).textContent = '0';
     //next player "changing the activePlayer using ternary operator            
@@ -29,7 +31,12 @@ function nextPlayer(){
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
     //when dice=1 make the dice dissappear 
-    document.querySelector('.dice').style.display = 'none';
+    var alldices = document.querySelectorAll('.dice');
+    for( var idx = 0; idx < alldices.length; idx++)
+        {
+            alldices[idx].style.display = 'none';
+        }
+    //document.querySelector('.dice').style.display = 'none';
 }
 
 
@@ -41,19 +48,34 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     if(gamePlaying)
         {
                 //1. Random number
-                var dice = Math.floor(Math.random() * 6) + 1;
-    
+                var dice0 = Math.floor(Math.random() * 6) + 1;
+                var dice1 = Math.floor(Math.random() * 6) + 1;
                 //2. Display the result
-                var diceDOM = document.querySelector('.dice');
-                diceDOM.style.display = 'block';
-                diceDOM.src = 'dice-' + dice + '.png';
+                var alldices = document.querySelectorAll('.dice');
+                for( var idx = 0; idx < alldices.length; idx++)
+                    {
+                        alldices[idx].style.display = 'block';
+                        if(idx==0)
+                            alldices[idx].src = 'dice-' + dice0 + '.png';
+                        else
+                            alldices[idx].src = 'dice-' + dice1 + '.png';
+                            
+                    }
     
-                //3. Update the round score but only IF the rolled number is not one.
-                if (dice > 1)
+                //3. Update the round score but only IF the rolled number is not one or 2 sixes in a row
+                if(dice0score == 6 && dice1score == 6 && dice0 == 6 && dice1 == 6)
+                    {
+                        // if the rolled number of a player is two sixes in a row lose entire saved score
+                        document.getElementById('score-' + activePlayer).textContent = 0;
+                        nextPlayer();
+                    }
+                else if (dice0 > 1 && dice1 > 1)
                     {
                         //add score
-                        roundScore += dice;
+                        roundScore += dice0+dice1;
                         document.querySelector('#current-' + activePlayer).textContent = roundScore;
+                        dice0score = dice0;
+                        dice1score = dice1;
                     }
                 else
                     {
@@ -72,11 +94,15 @@ document.querySelector('.btn-hold').addEventListener('click',function(){
             //update the user interface UI
             document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
             //check if player won the game
-            if (scores[activePlayer] >= 100)
+            if (scores[activePlayer] >= 50)
                 {
                     document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
                     // change the styling of element with class .dice and make it dissappear using display: none;
-                    document.querySelector('.dice').style.display = 'none';
+                    var alldices = document.querySelectorAll('.dice');
+                    for( var idx = 0; idx < alldices.length; idx++)
+                    {
+                        alldices[idx].style.display = 'none';
+                    }
                     // remove the active class from winner and add the winner class
                     document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
                     document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
@@ -100,7 +126,11 @@ function init(){
     activePlayer = 0;
     gamePlaying = true;
     // change the styling of element with class .dice and make it dissappear using display: none;
-    document.querySelector('.dice').style.display = 'none';
+    var alldices = document.querySelectorAll('.dice');
+    for( var idx = 0; idx < alldices.length; idx++)
+        {
+            alldices[idx].style.display = 'none';
+        }
     // use get elements by id which is used only to select ids and faster than queryselector
     document.getElementById('score-0').textContent = '0';
     document.getElementById('score-1').textContent = '0';
@@ -112,8 +142,5 @@ function init(){
     document.querySelector('.player-1-panel').classList.remove('winner');
     document.querySelector('.player-0-panel').classList.add('active');
 }
-
-
-
 
 

@@ -142,12 +142,23 @@ i {
 .btn-hold { top: 467px;}
 
 .dice {
-    position: absolute;
-    left: 50%;
-    top: 178px;
-    transform: translateX(-50%);
-    height: 100px;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+}
+
+#dice1 {
+    position: absolute;
+    left: 44%;
+    top: 178px;
+    transform: translateX(-44%);
+    height: 100px;   
+}
+
+#dice2 {
+    position: absolute;
+    left: 56%;
+    top: 178px;
+    transform: translateX(-56%);
+    height: 100px; 
 }
 
 .winner { background-color: #f7f7f7; }
