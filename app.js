@@ -94,8 +94,13 @@ document.querySelector('.btn-hold').addEventListener('click',function(){
             scores[activePlayer] += roundScore;
             //update the user interface UI
             document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+            // default value for the score must be achieved to win
+            var input;
+            document.querySelector('.final-score').value ? input = document.querySelector('.final-score').value : input = 100;
+                
+            
             //check if player won the game
-            if (scores[activePlayer] >= 50)
+            if (scores[activePlayer] >= input)
                 {
                     document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
                     // change the styling of element with class .dice and make it dissappear using display: none;
