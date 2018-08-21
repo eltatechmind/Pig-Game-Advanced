@@ -63,9 +63,10 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
                     }
     
                 //3. Update the round score but only IF the rolled number is not one or 2 sixes in a row
-                if(dice0score == 6 && dice1score == 6 && dice0 == 6 && dice1 == 6)
+                if(dice0score === 6 && dice1score === 6 && dice0 === 6 && dice1 === 6)
                     {
                         // if the rolled number of a player is two sixes in a row lose entire saved score
+                        scores[activePlayer] = 0;
                         document.getElementById('score-' + activePlayer).textContent = 0;
                         nextPlayer();
                     }
