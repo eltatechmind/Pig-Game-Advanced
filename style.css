@@ -180,10 +180,10 @@ i {
     transition: margin 0.3s;
 }
 
-.btn-new { top: 45px;}
+.btn-new { top: 84px;}
 .btn-roll { top: 403px;}
 .btn-hold { top: 467px;}
-.btn-rules { top: 531px; margin-left: 40px}
+.btn-rules { top: 20px; margin-left: 40px}
 
 .dice {
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
